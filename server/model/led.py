@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+from threading import Thread
 
 class Led:
 
@@ -22,6 +23,11 @@ class Led:
             time.sleep(sleepTime)
             i += 1
 
+    def asyncBlink(self, numBlink, sleepTime):
+        thread = Thread(target=self.blink, args=(numBlink, sleepTime))
+        thread.start()
+        return thread
+
     @classmethod
     def initialisation(cls):
         #Utilisation d'une norme de nommage pour les broches
@@ -32,19 +38,24 @@ class Led:
     def clean(cls):
         GPIO.cleanup()
 
-Led.initialisation()
+'''Led.initialisation()
 
 redLed= Led(16)
 blueLed= Led(14)
-redLed.blink(10, 0.25)
-Led.clean()
+redThread =  redLed.asyncBlink(10, 0.25)
+blueThread =  blueLed.asyncBlink(10, 0.25)
 
 
-'''redLed.on()
+redLed.on()
 time.sleep(1)
 redLed.off()
 blueLed.on()
-time.sleep(5)
+time.sleep(1)
 blueLed.off()
 
-Led.clean'''
+Led.clean()
+
+blueThread.join()
+redThread.join()
+
+Led.clean()'''
