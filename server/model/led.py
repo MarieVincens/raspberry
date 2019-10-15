@@ -13,6 +13,15 @@ class Led:
     def off(self):
         GPIO.output(self.GPIO_number, GPIO.LOW)
 
+    def blink(self, numBlink, sleepTime):
+        i=0
+        while i<numBlink:
+            self.on()
+            time.sleep(sleepTime)
+            self.off()
+            time.sleep(sleepTime)
+            i += 1
+
     @classmethod
     def initialisation(cls):
         #Utilisation d'une norme de nommage pour les broches
@@ -27,12 +36,15 @@ Led.initialisation()
 
 redLed= Led(16)
 blueLed= Led(14)
+redLed.blink(10, 0.25)
+Led.clean()
 
-redLed.on()
+
+'''redLed.on()
 time.sleep(1)
 redLed.off()
 blueLed.on()
 time.sleep(5)
 blueLed.off()
 
-Led.clean
+Led.clean'''
